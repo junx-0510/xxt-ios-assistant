@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080d18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="学习助手">
+<link rel="manifest" href="manifest.webmanifest">
+<title>学习通智能助手</title>
+<style>
+:root{--bg:#080d18;--panel:#111a2b;--panel2:#172238;--line:#263650;--text:#edf4ff;--muted:#8fa3c1;--cyan:#35d8f2;--blue:#668cff;--green:#48dfaa;--orange:#ffb454;--red:#ff6b7c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#18345c 0,transparent 42%),var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;padding:env(safe-area-inset-top) 0 calc(86px + env(safe-area-inset-bottom));}
+.app{max-width:680px;margin:auto;padding:18px 16px 24px}.top{display:flex;align-items:center;justify-content:space-between;margin:8px 0 22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#27d8ee,#5577ff);display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px #26cde533}.brand h1{font-size:18px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:4px}.pill{font-size:11px;color:var(--green);border:1px solid #276d61;background:#102b2c;padding:6px 9px;border-radius:20px}
+h2{font-size:19px;margin:22px 0 12px}.muted{color:var(--muted)}.hero{padding:19px;border:1px solid #2b5273;border-radius:22px;background:linear-gradient(130deg,#142b48,#15203a 65%,#1a2542);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:#35d8f21a;right:-65px;top:-65px}.hero small{color:#a9c8e9}.hero strong{display:block;font-size:29px;margin:8px 0}.hero p{font-size:12px;color:#a7bad5;margin:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px}.stat b{font-size:20px;display:block}.stat span{font-size:11px;color:var(--muted)}.section-head{display:flex;align-items:center;justify-content:space-between}.link{color:var(--cyan);font-size:12px;background:none;border:0}.course{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;margin-bottom:10px}.course-top{display:flex;justify-content:space-between;gap:12px}.course h3{font-size:15px;margin:0 0 6px}.course small{color:var(--muted)}.percent{color:var(--cyan);font-weight:700}.bar{height:6px;background:#26344c;border-radius:9px;margin:13px 0 8px;overflow:hidden}.bar i{height:100%;display:block;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:9px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 13px;border-radius:12px;font-size:13px}.btn.primary{background:linear-gradient(110deg,#22cce4,#5479ff);border:0;color:#06101c;font-weight:700}.btn.danger{color:var(--red)}.btn.full{width:100%;padding:13px}.timer{text-align:center;padding:22px}.time{font-size:43px;letter-spacing:2px;font-variant-numeric:tabular-nums;margin:15px 0}.field{width:100%;padding:13px;background:#0b1423;border:1px solid var(--line);border-radius:12px;color:var(--text);font:inherit;margin:7px 0 12px;outline:none}.field:focus{border-color:var(--cyan)}textarea.field{min-height:110px;resize:vertical}.label{font-size:12px;color:var(--muted)}.empty{text-align:center;padding:25px;color:var(--muted);font-size:13px}.nav{position:fixed;bottom:0;left:0;right:0;padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:#0b1220ee;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:space-around;z-index:5}.nav button{background:none;border:0;color:var(--muted);font-size:10px;display:grid;gap:4px;justify-items:center;min-width:55px}.nav button span{font-size:19px}.nav button.active{color:var(--cyan)}.view{display:none}.view.active{display:block}.note{font-size:11px;color:var(--muted);line-height:1.6}.tag{font-size:10px;color:var(--orange);border:1px solid #74552c;border-radius:20px;padding:4px 7px}.toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%);background:#e8f6ff;color:#07111e;padding:10px 15px;border-radius:12px;font-size:12px;display:none;z-index:10;box-shadow:0 6px 25px #0008}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">✦</div><div><h1>学习通智能助手</h1><div class="sub">FOCUS · LEARN · TRACK</div></div></div><div class="pill">● 本地模式</div></header>
+
+<section id="home" class="view active">
+ <div class="hero"><small>今日学习时间</small><strong id="todayTime">00:00:00</strong><p>每一点专注，都离目标更近一步。</p></div>
+ <div class="stats"><div class="stat"><b id="courseCount">0</b><span>我的课程</span></div><div class="stat"><b id="doneCount">0</b><span>已完成章节</span></div><div class="stat"><b id="totalCount">0</b><span>全部章节</span></div></div>
+ <div class="section-head"><h2>我的课程</h2><button class="link" onclick="showView('courses')">管理课程 →</button></div>
+ <div id="homeCourses"></div>
+ <h2>快速开始</h2><div class="card"><p class="muted" style="font-size:13px;margin-top:0">打开学习通官方 App 后，在这里启动计时，记录真实学习过程。</p><div class="actions"><button class="btn primary" onclick="showView('timer')">▶ 开始学习计时</button><button class="btn" onclick="openChaoxing()">打开学习通</button></div></div>
+</section>
+
+<section id="courses" class="view">
+ <div class="section-head"><h2>课程管理</h2><button class="btn primary" onclick="openCourseForm()">＋ 添加课程</button></div>
+ <div id="courseList"></div>
+ <div id="courseForm" class="card" style="display:none;margin-top:12px"><h3 id="formTitle" style="margin-top:0">添加课程</h3><div class="label">课程名称</div><input id="courseName" class="field" placeholder="例如：数据结构"><div class="label">章节数量（可后续调整）</div><input id="chapterCount" class="field" type="number" min="1" max="200" value="10"><div class="actions"><button class="btn primary" onclick="saveCourse()">保存课程</button><button class="btn" onclick="closeCourseForm()">取消</button></div></div>
+</section>
+
+<section id="timer" class="view">
+ <h2>专注计时</h2><div class="card timer"><div class="muted" style="font-size:12px">当前学习项目</div><select id="timerCourse" class="field" style="text-align:center"><option value="">自由学习</option></select><div class="time" id="clock">00:00:00</div><div class="actions" style="justify-content:center"><button class="btn primary" id="timerToggle" onclick="toggleTimer()">开始计时</button><button class="btn" onclick="finishTimer()">结束并保存</button></div><p class="note">请在实际学习时启动计时。切换到学习通 App 后，本页面计时可能受 iOS 后台机制影响；建议学习结束后返回本页核对记录。</p></div>
+ <h2>今日记录</h2><div class="card"><div id="todayRecords" class="muted" style="font-size:13px">暂无学习记录</div></div>
+</section>
+
+<section id="quiz" class="view">
+ <h2>习题辅助</h2><div class="card"><span class="tag">学习辅助</span><p class="note">粘贴题目后，可整理题型、题干和选项。此版本不自动登录或提交学习通答案，也不会绕过课程考核。</p><div class="label">粘贴题目</div><textarea id="question" class="field" placeholder="在这里粘贴题目和选项……"></textarea><button class="btn primary full" onclick="analyzeQuestion()">整理题目</button><div id="questionResult" style="display:none;margin-top:15px"><div class="label">整理结果</div><div id="questionText" class="note" style="white-space:pre-wrap;color:var(--text);margin-top:8px"></div><button class="btn" style="margin-top:12px" onclick="copyQuestion()">复制整理结果</button></div></div>
+ <h2>使用提示</h2><div class="card note">你可以把整理后的题目发给 ChatGPT，请它解释知识点、分析选项和讲解解题思路。提交前请自行核对课程教材与老师要求。</div>
+</section>
+
+<section id="settings" class="view">
+ <h2>设置</h2><div class="card"><h3 style="margin-top:0">数据管理</h3><p class="note">课程、章节和计时记录保存在当前 Safari 的本地存储中。清理网站数据或更换浏览器可能导致数据丢失。</p><div class="actions"><button class="btn" onclick="exportData()">导出备份</button><button class="btn" onclick="document.getElementById('importFile').click()">导入备份</button><input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)"></div></div>
+ <div class="card" style="margin-top:12px"><h3 style="margin-top:0">安装到主屏幕</h3><p class="note">部署到 HTTPS 网站后，在 Safari 打开网址 → 点击分享 → 选择“添加到主屏幕”。直接打开本地 HTML 文件不能完整启用离线 PWA 功能。</p></div>
+ <div class="card" style="margin-top:12px"><h3 style="margin-top:0">版本信息</h3><p class="note">学习通智能助手 v1.0 · iOS 26 适配的网页控制面板。非超星官方产品，与学习通无官方关联。</p></div>
+</section>
+</div>
+<nav class="nav">
+<button class="active" data-view="home" onclick="showView('home')"><span>⌂</span>首页</button>
+<button data-view="courses" onclick="showView('courses')"><span>▤</span>课程</button>
+<button data-view="timer" onclick="showView('timer')"><span>◷</span>计时</button>
+<button data-view="quiz" onclick="showView('quiz')"><span>✧</span>习题</button>
+<button data-view="settings" onclick="showView('settings')"><span>⚙</span>设置</button>
+</nav><div id="toast" class="toast"></div>
+<script>
+const KEY='xxt_assistant_v1';
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{courses:[],records:[]};
+let editingId=null, running=false, startedAt=0, elapsed=0, tick=null;
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2100)}
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='timer')renderTimerSelect()}
+function openCourseForm(id){editingId=id||null;let c=state.courses.find(x=>x.id===id);document.getElementById('courseForm').style.display='block';document.getElementById('formTitle').textContent=c?'编辑课程':'添加课程';document.getElementById('courseName').value=c?.name||'';document.getElementById('chapterCount').value=c?.chapters.length||10;document.getElementById('courseForm').scrollIntoView({behavior:'smooth'})}
+function closeCourseForm(){document.getElementById('courseForm').style.display='none';editingId=null}
+function saveCourse(){let name=document.getElementById('courseName').value.trim(),n=Math.max(1,Math.min(200,parseInt(document.getElementById('chapterCount').value)||1));if(!name){toast('请填写课程名称');return}if(editingId){let c=state.courses.find(x=>x.id===editingId);c.name=name;while(c.chapters.length<n)c.chapters.push({name:'第'+(c.chapters.length+1)+'章',done:false});c.chapters=c.chapters.slice(0,n)}else state.courses.push({id:uid(),name,chapters:Array.from({length:n},(_,i)=>({name:'第'+(i+1)+'章',done:false}))});closeCourseForm();save();toast('课程已保存')}
+function toggleChapter(cid,i){let c=state.courses.find(x=>x.id===cid);c.chapters[i].done=!c.chapters[i].done;save()}
+function deleteCourse(id){if(confirm('确定删除这门课程吗？')){state.courses=state.courses.filter(c=>c.id!==id);save()}}
+function courseHTML(c){let done=c.chapters.filter(x=>x.done).length,p=Math.round(done/Math.max(c.chapters.length,1)*100);return `<div class="course"><div class="course-top"><div><h3>${esc(c.name)}</h3><small>${done}/${c.chapters.length} 个章节已完成</small></div><div class="percent">${p}%</div></div><div class="bar"><i style="width:${p}%"></i></div><details><summary class="muted" style="font-size:12px;padding:4px 0">查看章节与进度</summary><div style="padding-top:8px">${c.chapters.map((ch,i)=>`<label style="display:flex;gap:9px;align-items:center;padding:8px 0;font-size:13px"><input type="checkbox" ${ch.done?'checked':''} onchange="toggleChapter('${c.id}',${i})"><span style="${ch.done?'text-decoration:line-through;color:#8292aa':''}">${esc(ch.name)}</span></label>`).join('')}</div></details><div class="actions" style="margin-top:10px"><button class="btn" onclick="openCourseForm('${c.id}')">编辑</button><button class="btn danger" onclick="deleteCourse('${c.id}')">删除</button></div></div>`}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){let all=state.courses.reduce((a,c)=>a+c.chapters.length,0),done=state.courses.reduce((a,c)=>a+c.chapters.filter(x=>x.done).length,0);document.getElementById('courseCount').textContent=state.courses.length;document.getElementById('doneCount').textContent=done;document.getElementById('totalCount').textContent=all;document.getElementById('homeCourses').innerHTML=state.courses.length?state.courses.slice(0,3).map(courseHTML).join(''):'<div class="empty">还没有课程，点击“管理课程”添加第一门课程。</div>';document.getElementById('courseList').innerHTML=state.courses.length?state.courses.map(courseHTML).join(''):'<div class="empty">暂无课程，点击右上角添加课程。</div>';renderTimerSelect();renderRecords();document.getElementById('todayTime').textContent=format(todaySeconds())}
+function renderTimerSelect(){let s=document.getElementById('timerCourse'),v=s.value;s.innerHTML='<option value="">自由学习</option>'+state.courses.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');s.value=v}
+function format(sec){sec=Math.max(0,Math.floor(sec));return [Math.floor(sec/3600),Math.floor(sec%3600/60),sec%60].map(x=>String(x).padStart(2,'0')).join(':')}
+function todaySeconds(){let d=new Date().toDateString();return state.records.filter(r=>new Date(r.at).toDateString()===d).reduce((a,r)=>a+r.seconds,0)+(running?Math.floor((Date.now()-startedAt)/1000):0)}
+function toggleTimer(){if(!running){running=true;startedAt=Date.now();document.getElementById('timerToggle').textContent='暂停计时';tick=setInterval(()=>{document.getElementById('clock').textContent=format(elapsed+Math.floor((Date.now()-startedAt)/1000));document.getElementById('todayTime').textContent=format(todaySeconds())},500)}else{elapsed+=Math.floor((Date.now()-startedAt)/1000);running=false;clearInterval(tick);document.getElementById('timerToggle').textContent='继续计时';document.getElementById('clock').textContent=format(elapsed)}}
+function finishTimer(){if(running){elapsed+=Math.floor((Date.now()-startedAt)/1000);running=false;clearInterval(tick)}if(elapsed>0){state.records.push({id:uid(),courseId:document.getElementById('timerCourse').value,seconds:elapsed,at:new Date().toISOString()});save();toast('学习记录已保存')}elapsed=0;document.getElementById('clock').textContent='00:00:00';document.getElementById('timerToggle').textContent='开始计时'}
+function renderRecords(){let d=new Date().toDateString(),rs=state.records.filter(r=>new Date(r.at).toDateString()===d);document.getElementById('todayRecords').innerHTML=rs.length?rs.slice().reverse().map(r=>{let c=state.courses.find(x=>x.id===r.courseId);return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>${esc(c?.name||'自由学习')}</span><b>${format(r.seconds)}</b></div>`}).join(''):'暂无学习记录'}
+function analyzeQuestion(){let q=document.getElementById('question').value.trim();if(!q){toast('请先粘贴题目');return}let result='【题目内容】\n'+q+'\n\n【建议分析步骤】\n1. 先识别题型与考查知识点。\n2. 将题干中的条件逐条列出。\n3. 对照教材定义分析每个选项。\n4. 写出判断依据，再核对结论。\n\n提示：本功能仅整理题目文本，不会自动生成或提交答案。';document.getElementById('questionText').textContent=result;document.getElementById('questionResult').style.display='block'}
+function copyQuestion(){let t=document.getElementById('questionText').textContent;if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(()=>toast('已复制')).catch(()=>toast('复制失败，请手动选择'));else toast('请长按文本复制')}
+function openChaoxing(){toast('请从 iPhone 主屏幕打开学习通官方 App');}
+function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='学习助手备份.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.courses)||!Array.isArray(x.records))throw 0;state=x;save();toast('备份导入成功')}catch(_){toast('文件格式不正确')}};r.readAsText(f);e.target.value=''}
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+render();
+</script>
+</body></html>
